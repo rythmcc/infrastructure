@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - npm install -g aws-cdk@next
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/deployment/src
+      - npm install
+      - cdk synth > dev.template.yml
+      - cdk diff -c aws-cdk:enableDiffNoFail=true
+      - cdk deploy
